@@ -1,7 +1,7 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.model.Todo;
-import com.example.todolist.repository.TodoRepository;
+import com.example.todolist.model.TodoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
+import java.util.List;
 
 
 import static org.hamcrest.Matchers.*;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TodoControllerTest {
+class TodoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,11 +34,11 @@ public class TodoControllerTest {
     private TodoRepository todoRepository;
 
     @Test
-    public void testGetAllTodos() throws Exception {
-        when(todoRepository.findAll()).thenReturn(Arrays.asList(
-            new Todo("Todo 1"),
-            new Todo("Todo 2")
-        ));
+    void testGetAllTodos() throws Exception {
+        when(todoRepository.findAll()).thenReturn(List.of(
+            Todo.builder().title("Todo 1").build(),
+                Todo.builder().title("Todo 2").build())
+        );
 
         mockMvc.perform(get("/api/todos"))
             .andExpect(status().isOk())
@@ -48,8 +48,9 @@ public class TodoControllerTest {
     }
 
     @Test
-    public void testCreateTodo() throws Exception {
-        Todo todo = new Todo("New Todo");
+   void testCreateTodo() throws Exception {
+        Todo todo = new Todo();
+        todo.setTitle("New Todo");
         when(todoRepository.save(any(Todo.class))).thenReturn(todo);
 
         mockMvc.perform(post("/api/todos")

@@ -1,48 +1,38 @@
 package com.example.todolist.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "to_do")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Todo {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @Schema(description = "ID",
+            defaultValue = "1",
+            example = "1")
     private Long id;
+
+    @Schema(description = "Заголовок",
+            defaultValue = "Задание номер 1",
+            example = "Задание номер 1")
+    @Column(name = "title", nullable = false)
     private String title;
-    private boolean completed;
 
-    // Конструкторы
-    public Todo() {}
+    @Schema(description = "Статус задачи",
+            defaultValue = "false",
+            example = "false")
+    @Column(name = "is_completed", nullable = false)
+    private boolean isCompleted;
 
-    public Todo(String title) {
-        this.title = title;
-        this.completed = false;
-    }
-
-    // Геттеры и сеттеры
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
 }
