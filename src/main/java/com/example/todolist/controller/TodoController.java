@@ -20,7 +20,6 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping
-    
     public Page<TaskEntity> getAllTasks(Pageable pageable) {
         return todoService.getAllTasks(pageable);
     }
@@ -36,8 +35,12 @@ public class TodoController {
         return todoService.getTaskById(id);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateTaskState(@PathVariable Long id, @RequestBody TodoDTO todoDTO) {
+         todoService.updateTask(id, todoDTO);
+    }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

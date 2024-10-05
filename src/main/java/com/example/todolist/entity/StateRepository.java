@@ -1,4 +1,4 @@
-package com.example.todolist.repository;
+package com.example.todolist.entity;
 
 import com.example.todolist.entity.StateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
